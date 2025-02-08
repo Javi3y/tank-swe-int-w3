@@ -1,0 +1,25 @@
+venv
+backend/.env
+
+# python cache
+backend/__pycache__
+backend/*/__pycache__
+backend/.mypy_cache
+backend/.pytest_cache
+backend/notes
+*__pycache__
+*/__pycache__
+
+# venv
+backend/venv
+backend/.env
+backend/.venv
+backend/env
+
+# IDE
+backend/.idea
+backend/.vscode
+
+postgres
+pgadmin
+
