@@ -16,11 +16,13 @@ def user_mapper(mapper_registry, metadata):
         polymorphic_on="role",
     )
 
+
 def city_mapper(mapper_registry, metadata):
     mapper_registry.map_imperatively(
         City,
         get_city_db(metadata),
     )
+
 
 def client_mapper(mapper_registry, metadata):
     mapper_registry.map_imperatively(
@@ -29,9 +31,10 @@ def client_mapper(mapper_registry, metadata):
         polymorphic_identity="client",
     )
 
-def author_mapper(mapper_registry, metadata):
-    mapper_registry.map_imperatively(
-        Author,
-        get_client_db(metadata),
-        polymorphic_identity="author",
-    )
+
+#def author_mapper(mapper_registry, metadata):
+#    mapper_registry.map_imperatively(
+#        Author,
+#        get_author_db(metadata),
+#        polymorphic_identity="author",
+#    )
