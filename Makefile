@@ -1,3 +1,5 @@
+.PHONY: postgres redis
+
 postgres:
 	docker-compose up postgres pgadmin
 redis:
