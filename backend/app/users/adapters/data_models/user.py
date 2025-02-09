@@ -30,6 +30,6 @@ def get_user_db(metadata):
         PrimaryKeyConstraint("id"),
         UniqueConstraint("email"),
         UniqueConstraint("username"),
-        CheckConstraint("phone_number ~ '^09[0-9]{9}$'", name='valid_mobile_phone')
+        CheckConstraint("phone_number ~ '^09[0-9]{9}$'", name="valid_mobile_phone"),
     )
     return user_db

@@ -3,7 +3,7 @@ from app.users.domain.entities.user import User
 
 
 class Author(User):
-    role: RoleEnum= RoleEnum("author")
+    role: RoleEnum = RoleEnum("author")
 
     def __str__(self):
         return f"<Author {self.username}>"

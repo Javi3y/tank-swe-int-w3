@@ -20,11 +20,10 @@ def get_author_db(metadata):
         Column("bank_acount", String(), nullable=False),
         ForeignKeyConstraint(["city_id"], ["city.id"], ondelete="CASCADE"),
         ForeignKeyConstraint(
-                 ["id"],
-                 ["user.id"],
-             ),
+            ["id"],
+            ["user.id"],
+        ),
         UniqueConstraint("bank_acount"),
         UniqueConstraint("goodreads"),
-
     )
     return author_db

@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.adapters.postgres import SessionLocal
 from app.users.adapters.repositories.client import ClientRepository
 
+
 class UnitOfWork:
     def __init__(self):
         self.session: AsyncSession = SessionLocal()
@@ -24,7 +25,6 @@ class UnitOfWork:
             await self.rollback()
         await self.session.close()
 
+
 async def get_uow() -> UnitOfWork:
     return UnitOfWork()
-
-

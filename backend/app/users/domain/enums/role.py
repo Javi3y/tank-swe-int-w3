@@ -1,7 +1,7 @@
-import enum
+from enum import Enum
 
 
-class RoleEnum(enum.Enum):
+class RoleEnum(Enum):
     client = "client"
     author = "author"
     admin = "admin"
