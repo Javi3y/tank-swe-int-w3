@@ -1,14 +1,16 @@
-from fastapi import APIRouter, Depends
+from typing import List
+from fastapi import APIRouter, Depends, Response
+from starlette.status import HTTP_204_NO_CONTENT
 
 from app.unit_of_work import UnitOfWork, get_uow
-from app.users.domain.entities.client import ClientCreate, ClientOut
+from app.users.domain.entities.client import ClientCreate, ClientOut, ClientUpdate
 from app.users.service.client import ClientService
 
 
 router = APIRouter(prefix="/clients", tags=["Clients"])
 
 
-@router.get("/")
+@router.get("/", response_model=List[ClientOut])
 async def get_clients(
     # client_service: ClientService = Depends(get_client_service),
     uow: UnitOfWork = Depends(get_uow),
@@ -16,6 +18,17 @@ async def get_clients(
     async with uow:
         client_service = ClientService()
         return await client_service.get_items(uow)
+
+
+@router.get("/{id}", response_model=ClientOut)
+async def get_client(
+    # client_service: ClientService = Depends(get_client_service),
+    id: int,
+    uow: UnitOfWork = Depends(get_uow),
+):
+    async with uow:
+        client_service = ClientService()
+        return await client_service.get_item(id, uow)
 
 
 @router.post("/", response_model=ClientOut)
@@ -26,4 +39,31 @@ async def create_clients(
 ):
     async with uow:
         client_service = ClientService()
-        return await client_service.create_item(client, uow)
+        client = await client_service.create_item(client, uow)
+        await uow.commit()
+        await uow.refresh(client)
+        return client
+
+
+@router.patch("/{id}", response_model=ClientOut)
+async def update_client(
+    id: int, client: ClientUpdate, uow: UnitOfWork = Depends(get_uow)
+):
+    async with uow:
+        client_service = ClientService()
+        client = await client_service.update_item(id, client, uow)
+        print(client)
+        await uow.commit()
+        await uow.refresh(client)
+        return client
+
+
+@router.delete("/{id}")
+async def delete_client(id: int, uow: UnitOfWork = Depends(get_uow)):
+    async with uow:
+        client_service = ClientService()
+        await client_service.delete_item(id, uow)
+        await uow.commit()
+        return Response(status_code=HTTP_204_NO_CONTENT)
+
+

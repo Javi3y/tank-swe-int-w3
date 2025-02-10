@@ -16,6 +16,5 @@ def get_client_db(metadata):
             ["id"],
             ["user.id"],
         ),
-        #extend_existing=True,
     )
     return client_db

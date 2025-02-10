@@ -14,8 +14,14 @@ class UnitOfWork:
     async def commit(self):
         await self.session.commit()
 
+    async def flush(self):
+        await self.session.flush()
+
     async def rollback(self):
         await self.session.rollback()
+
+    async def refresh(self, item):
+        await self.session.refresh(item)
 
     async def __aenter__(self):
         return self
