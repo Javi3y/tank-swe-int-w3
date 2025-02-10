@@ -3,8 +3,6 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.users.domain.entities.client import Client, ClientCreate, ClientUpdate
-from app.users.domain.entities.user import User
-from app.users.domain.enums.role import RoleEnum
 
 
 class ClientRepository:

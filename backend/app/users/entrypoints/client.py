@@ -52,7 +52,6 @@ async def update_client(
     async with uow:
         client_service = ClientService()
         client = await client_service.update_item(id, client, uow)
-        print(client)
         await uow.commit()
         await uow.refresh(client)
         return client

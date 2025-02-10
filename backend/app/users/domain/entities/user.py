@@ -55,6 +55,8 @@ class User:
         if re.fullmatch(r"^(?:\+98|0)?9\d{9}$", phone_number):
             return phone_number
         raise HTTPException(HTTP_400_BAD_REQUEST, "invalid phone number")
+    def set_expire(self, expire):
+        self.token_expire = expire
 
 
 class UserBase(BaseModel):

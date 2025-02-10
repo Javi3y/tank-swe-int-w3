@@ -1,15 +1,16 @@
-from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
 from app.adapters.postgres import SessionLocal
 from app.users.adapters.repositories.client import ClientRepository
+from app.users.adapters.repositories.user import UserRepository
 
 
 class UnitOfWork:
     def __init__(self):
         self.session: AsyncSession = SessionLocal()
         self.client_repo = ClientRepository()
+        self.user_repo = UserRepository()
 
     async def commit(self):
         await self.session.commit()
