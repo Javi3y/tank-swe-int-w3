@@ -6,7 +6,7 @@ from app.auth.service import dependencies
 from app.unit_of_work import UnitOfWork, get_uow
 from app.users.domain.entities.client import ClientCreate, ClientOut, ClientUpdate
 from app.users.service.client import ClientService
-from app.auth.service.dependencies.permisions import CurrentUser, current_user_or_admin
+from app.auth.service.dependencies.permissions import CurrentUser, current_user_or_admin
 
 
 router = APIRouter(prefix="/clients", tags=["Clients"])

@@ -1,6 +1,6 @@
 from typing import Annotated
 from fastapi import Depends, Request
-from app.auth.domain.entities.permisions import (
+from app.auth.domain.entities.permissions import (
     AdminPermission,
     AuthorOrAdminPermission,
     CurrentUserOrAdminPermission,
