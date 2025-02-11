@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.postgres import get_db
 from app.adapters.redis import run_redis
-from app.auth.service.entrypoints import auth
+from app.auth.entrypoints import auth
 from app.users.adapters.mappers import (
     #    author_mapper,
     client_mapper,
