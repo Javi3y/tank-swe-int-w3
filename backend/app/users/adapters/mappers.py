@@ -44,6 +44,12 @@ def author_mapper(mapper_registry, metadata):
         inherits=User,
         polymorphic_identity=RoleEnum.author,
         properties={
-            'city': relationship(City, lazy="selectin")
-        }
+            "city": relationship(City, lazy="selectin"),
+            "books": relationship(
+                "Book",
+                secondary="book_author",
+                back_populates="authors",
+                lazy="selectin",
+            ),
+        },
     )

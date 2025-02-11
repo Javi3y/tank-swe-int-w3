@@ -4,6 +4,7 @@ from app.users.adapters.mappers import (
     client_mapper,
     user_mapper,
 )
+from app.books.adapters.mappers import book_author_mapper, book_mapper, genre_mapper
 
 
 def mapper(mapper_registry, metadata):
@@ -11,3 +12,7 @@ def mapper(mapper_registry, metadata):
     city_mapper(mapper_registry, metadata)
     client_mapper(mapper_registry, metadata)
     author_mapper(mapper_registry, metadata)
+
+    genre_mapper(mapper_registry, metadata)
+    book_author_mapper(mapper_registry, metadata)
+    book_mapper(mapper_registry, metadata)

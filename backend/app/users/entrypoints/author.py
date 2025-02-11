@@ -22,9 +22,9 @@ async def get_authors(
 
 @router.get("/{id}", response_model=AuthorOut)
 async def get_client(
-   id: int,
-   uow: UnitOfWork = Depends(get_uow),
+    id: int,
+    uow: UnitOfWork = Depends(get_uow),
 ):
-   async with uow:
-       author_service = AuthorService()
-       return await author_service.get_item(id, uow)
+    async with uow:
+        author_service = AuthorService()
+        return await author_service.get_item(id, uow)
