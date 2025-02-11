@@ -1,6 +1,4 @@
-from datetime import UTC, datetime
-from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import EmailStr
 from app.users.domain.enums.role import RoleEnum
 from app.users.domain.entities.user import (
     User,

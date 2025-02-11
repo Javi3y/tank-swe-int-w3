@@ -2,7 +2,6 @@ from sqlalchemy import (
     Column,
     ForeignKeyConstraint,
     Integer,
-    PrimaryKeyConstraint,
     String,
     Table,
     UniqueConstraint,

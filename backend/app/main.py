@@ -6,26 +6,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.adapters.mappers import mapper
 from app.adapters.postgres import get_db
 from app.adapters.redis import run_redis
 from app.auth.entrypoints import auth
-from app.users.adapters.mappers import (
-    #    author_mapper,
-    client_mapper,
-    user_mapper,
-    city_mapper,
-)
 from sqlalchemy.orm import registry
 
 from app.users.domain.entities.user import User, UserOut
-from app.users.entrypoints import client
+from app.users.entrypoints import author, client
 
 mapper_registry = registry()
 metadata = mapper_registry.metadata
-user_mapper(mapper_registry, metadata)
-city_mapper(mapper_registry, metadata)
-client_mapper(mapper_registry, metadata)
-# author_mapper(mapper_registry, metadata)
+mapper(mapper_registry, metadata)
 
 
 @asynccontextmanager
@@ -62,4 +54,5 @@ async def get_users(db: AsyncSession = Depends(get_db)):
 
 
 app.include_router(client.router)
+app.include_router(author.router)
 app.include_router(auth.router)
