@@ -56,6 +56,9 @@ class User:
             return phone_number
         raise HTTPException(HTTP_400_BAD_REQUEST, "invalid phone number")
 
+    def set_expire(self, expire):
+        self.token_expire = expire
+
 
 class UserBase(BaseModel):
     email: EmailStr
