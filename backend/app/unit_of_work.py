@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 from app.adapters.postgres import SessionLocal
+from app.users.adapters.repositories.authors import AuthorRepository
 from app.users.adapters.repositories.client import ClientRepository
 from app.users.adapters.repositories.user import UserRepository
 
@@ -11,6 +12,7 @@ class UnitOfWork:
         self.session: AsyncSession = SessionLocal()
         self.client_repo = ClientRepository()
         self.user_repo = UserRepository()
+        self.author_repo = AuthorRepository()
 
     async def commit(self):
         await self.session.commit()

@@ -44,7 +44,11 @@ async def create_clients(
         return client
 
 
-@router.patch("/{user_id}", response_model=ClientOut, dependencies=[Depends(current_user_or_admin)])
+@router.patch(
+    "/{user_id}",
+    response_model=ClientOut,
+    dependencies=[Depends(current_user_or_admin)],
+)
 async def update_client(
     user_id: int, client: ClientUpdate, uow: UnitOfWork = Depends(get_uow)
 ):
