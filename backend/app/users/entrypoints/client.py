@@ -64,5 +64,3 @@ async def delete_client(id: int, uow: UnitOfWork = Depends(get_uow)):
         await client_service.delete_item(id, uow)
         await uow.commit()
         return Response(status_code=HTTP_204_NO_CONTENT)
-
-
