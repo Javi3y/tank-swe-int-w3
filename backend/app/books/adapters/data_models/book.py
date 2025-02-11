@@ -22,7 +22,12 @@ def get_book_db(metadata):
         Column("units", Integer(), nullable=False),
         Column("description", String(), nullable=False),
         Column("id", Integer(), nullable=False),
-        Column("created_at", DateTime(timezone=True), nullable=False, default=current_timestamp()),
+        Column(
+            "created_at",
+            DateTime(timezone=True),
+            nullable=False,
+            default=current_timestamp(),
+        ),
         PrimaryKeyConstraint("id"),
         UniqueConstraint("isbn"),
     )

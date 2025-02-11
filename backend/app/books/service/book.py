@@ -19,7 +19,7 @@ class BookService:
         repo = uow.book_repo
         return await repo.get_item(id, uow.session)
 
-    #async def update_item(self, id: int, client: ClientUpdate, uow: UnitOfWork):
+    # async def update_item(self, id: int, client: ClientUpdate, uow: UnitOfWork):
     #    repo = uow.client_repo
     #    return await repo.update_item(id, client, uow.session)
 

@@ -15,7 +15,7 @@ class Book:
         units: int,
         description: str,
         created_at: Optional[datetime] = datetime.now(UTC),
-        id: Optional[int]=None,
+        id: Optional[int] = None,
     ):
         self.title = title
         self.isbn = isbn
@@ -34,11 +34,11 @@ class BookBase(BaseModel):
     isbn: str
     units: int
     description: str
-    price:int
+    price: int
 
 
 class BookCreate(BookBase):
-    #author: int
+    # author: int
     pass
 
 

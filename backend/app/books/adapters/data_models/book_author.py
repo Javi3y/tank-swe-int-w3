@@ -17,7 +17,12 @@ def get_book_author_db(metadata):
         Column("author_id", Integer(), nullable=False),
         Column("book_id", Integer(), nullable=False),
         Column("id", Integer(), nullable=False),
-        Column("created_at", DateTime(timezone=True), nullable=False, default=current_timestamp()),
+        Column(
+            "created_at",
+            DateTime(timezone=True),
+            nullable=False,
+            default=current_timestamp(),
+        ),
         ForeignKeyConstraint(["author_id"], ["author.id"], ondelete="CASCADE"),
         ForeignKeyConstraint(["book_id"], ["book.id"], ondelete="CASCADE"),
         PrimaryKeyConstraint("id"),
