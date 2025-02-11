@@ -21,7 +21,7 @@ def get_user_db(metadata):
         "user",
         metadata,
         Column("id", Integer(), nullable=False, primary_key=True, autoincrement=True),
-        Column("created_at", DateTime(), nullable=False, default=current_timestamp()),
+        Column("created_at", DateTime(timezone=True), nullable=False, default=current_timestamp()),
         Column("email", EmailType(), nullable=False),
         Column("username", String(), nullable=False),
         Column("name", String(), nullable=False),

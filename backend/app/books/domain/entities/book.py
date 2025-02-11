@@ -5,15 +5,17 @@ from pydantic import BaseModel
 
 
 class Book:
+    id: Optional[int]
+
     def __init__(
         self,
-        id: Optional[int],
         title: str,
         isbn: str,
         price: int,
         units: int,
         description: str,
         created_at: Optional[datetime] = datetime.now(UTC),
+        id: Optional[int]=None,
     ):
         self.title = title
         self.isbn = isbn
@@ -32,10 +34,12 @@ class BookBase(BaseModel):
     isbn: str
     units: int
     description: str
+    price:int
 
 
 class BookCreate(BookBase):
-    author: int
+    #author: int
+    pass
 
 
 class BookOut(BookBase):

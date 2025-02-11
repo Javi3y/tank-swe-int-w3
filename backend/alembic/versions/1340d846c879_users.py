@@ -25,7 +25,7 @@ def upgrade() -> None:
     op.create_table(
         "user",
         sa.Column("id", sa.Integer(), nullable=False, autoincrement=True),
-        sa.Column("created_at", sa.DateTime(), nullable=False),
+        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
         sa.Column("email", sqlalchemy_utils.types.email.EmailType(), nullable=False),
         sa.Column(
             "username", sa.String(), nullable=False, server_default=sa.func.now()

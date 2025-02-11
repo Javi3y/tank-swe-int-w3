@@ -7,5 +7,5 @@ from sqlalchemy.sql.functions import current_timestamp
 class Base:
     id = Column(Integer, nullable=False, primary_key=True)
     created_at = Column(
-        "created_at", DateTime(), default=current_timestamp(), nullable=False
+        "created_at", DateTime(timezone=True), default=current_timestamp(), nullable=False
     )

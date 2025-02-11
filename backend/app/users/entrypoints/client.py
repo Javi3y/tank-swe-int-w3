@@ -2,11 +2,10 @@ from typing import List
 from fastapi import APIRouter, Depends, Response
 from starlette.status import HTTP_204_NO_CONTENT
 
-from app.auth.service import dependencies
 from app.unit_of_work import UnitOfWork, get_uow
 from app.users.domain.entities.client import ClientCreate, ClientOut, ClientUpdate
 from app.users.service.client import ClientService
-from app.auth.service.dependencies.permissions import CurrentUser, current_user_or_admin
+from app.auth.service.dependencies.permissions import current_user_or_admin
 
 
 router = APIRouter(prefix="/clients", tags=["Clients"])

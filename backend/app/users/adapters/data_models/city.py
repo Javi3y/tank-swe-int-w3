@@ -14,7 +14,7 @@ def get_city_db(metadata):
         "city",
         metadata,
         Column("id", Integer(), nullable=False, primary_key=True),
-        Column("created_at", DateTime(), nullable=False),
+        Column("created_at", DateTime(timezone=True), nullable=False),
         Column("name", String, nullable=False, unique=True),
         PrimaryKeyConstraint("id"),
         UniqueConstraint("name"),

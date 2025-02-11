@@ -18,7 +18,7 @@ def get_genre_db(metadata):
         metadata,
         Column("name", String(), nullable=False),
         Column("id", Integer(), nullable=False),
-        Column("created_at", DateTime(), nullable=False, default=current_timestamp()),
+        Column("created_at", DateTime(timezone=True), nullable=False, default=current_timestamp()),
         PrimaryKeyConstraint("id"),
         UniqueConstraint("name"),
     )
