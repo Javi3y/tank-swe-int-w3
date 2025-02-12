@@ -11,6 +11,7 @@ class Subscription:
     sub_start: datetime
     sub_end: datetime
     subscription_model: SubEnum
+
     def __init__(
         self,
         client_id: int,
