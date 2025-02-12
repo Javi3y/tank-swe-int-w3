@@ -3,6 +3,7 @@ from fastapi import Depends, Request
 from app.auth.domain.entities.permissions import (
     AdminPermission,
     AuthorOrAdminPermission,
+    CurrentAuthorOrAdminPermission,
     CurrentUserOrAdminPermission,
     CurrentUserOrAdminPermission,
     CurrentUserPermission,
@@ -31,7 +32,13 @@ async def current_user_or_admin(request: Request, user: CurrentUser):
     return user
 
 
-async def author_or_admin_permissasion(request: Request, user: CurrentUser):
+async def author_or_admin(request: Request, user: CurrentUser):
     permission = AuthorOrAdminPermission(request=request, user=user)
     permission()
     return user
+
+
+async def current_author_or_admin(request: Request, user: CurrentUser):
+    permission = CurrentAuthorOrAdminPermission(request=request, user=user)
+    permission()
+    pass

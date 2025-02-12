@@ -1,6 +1,6 @@
 from typing import List
 from pydantic import EmailStr
-from app.books.domain.entities.book import Book, BookOut
+from app.books.domain.entities.book import Book
 from app.users.domain.entities.city import City, CityOut
 from app.users.domain.enums.role import RoleEnum
 from app.users.domain.entities.user import User, UserCreate, UserOut
@@ -46,4 +46,4 @@ class AuthorCreate(UserCreate):
 
 class AuthorOut(UserOut):
     city: CityOut
-    books: List[BookOut]
+    #books: List[BookOut]

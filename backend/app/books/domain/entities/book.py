@@ -1,7 +1,10 @@
 from datetime import UTC, datetime
-from typing import Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from pydantic import BaseModel
+
+if TYPE_CHECKING:
+    from app.users.domain.entities.author import AuthorOut
 
 
 class Book:
@@ -35,6 +38,8 @@ class BookBase(BaseModel):
     units: int
     description: str
     price: int
+    class Config:
+        from_attributes = True
 
 
 class BookCreate(BookBase):
@@ -45,3 +50,4 @@ class BookCreate(BookBase):
 class BookOut(BookBase):
     id: int
     created_at: datetime
+    #authors: List["AuthorOut"]

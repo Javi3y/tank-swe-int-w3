@@ -6,10 +6,13 @@ from app.books.domain.entities.genre import Genre
 
 
 class GenreRepository:
-    async def get_all(self, db: AsyncSession) -> List[Genre]:
-        items = await db.execute(select(Genre))
+    def __init__(self, session: AsyncSession):
+        self.session = session
+
+    async def get_all(self) -> List[Genre]:
+        items = await self.session.execute(select(Genre))
         return items.scalars().all()
 
-    async def get_item(self, id: int, db: AsyncSession) -> Genre:
-        item = await db.execute(select(Genre).where(Genre.id == id))
+    async def get_item(self, id: int) -> Genre:
+        item = await self.session.execute(select(Genre).where(Genre.id == id))
         return item.scalar()

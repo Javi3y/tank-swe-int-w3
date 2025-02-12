@@ -1,30 +1,25 @@
 from typing import List
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 
-from app.unit_of_work import UnitOfWork, get_uow
+from app.unit_of_work import UnitOfWork
 from app.users.domain.entities.author import AuthorOut
-from app.users.domain.entities.client import ClientOut
 from app.users.service.author import AuthorService
-from app.auth.service.dependencies.permissions import current_user_or_admin
 
 
 router = APIRouter(prefix="/authors", tags=["Authors"])
 
 
 @router.get("/", response_model=List[AuthorOut])
-async def get_authors(
-    uow: UnitOfWork = Depends(get_uow),
-):
-    async with uow:
+async def get_authors():
+    async with UnitOfWork() as uow:
         author_service = AuthorService()
         return await author_service.get_items(uow)
 
 
 @router.get("/{id}", response_model=AuthorOut)
-async def get_client(
+async def get_author(
     id: int,
-    uow: UnitOfWork = Depends(get_uow),
 ):
-    async with uow:
+    async with UnitOfWork() as uow:
         author_service = AuthorService()
         return await author_service.get_item(id, uow)

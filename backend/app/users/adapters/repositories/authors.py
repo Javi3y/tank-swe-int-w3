@@ -6,10 +6,13 @@ from app.users.domain.entities.author import Author
 
 
 class AuthorRepository:
-    async def get_all(self, db: AsyncSession) -> List[Author]:
-        items = await db.execute(select(Author))
+    def __init__(self, session: AsyncSession):
+        self.session = session
+
+    async def get_all(self) -> List[Author]:
+        items = await self.session.execute(select(Author))
         return items.scalars().all()
 
-    async def get_item(self, id: int, db: AsyncSession):
-        item = await db.execute(select(Author).where(Author.id == id))
+    async def get_item(self, id: int):
+        item = await self.session.execute(select(Author).where(Author.id == id))
         return item.scalar()
