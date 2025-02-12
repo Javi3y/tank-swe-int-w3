@@ -8,7 +8,7 @@ from app.users.adapters.data_models.city import get_city_db
 from app.users.domain.entities.client import Client
 
 from app.users.domain.entities.author import Author
-from app.users.domain.entities.subsciption import Subscription
+from app.users.domain.entities.subscription import Subscription
 from app.users.domain.entities.user import User
 from app.users.domain.entities.city import City
 from app.users.domain.enums.role import RoleEnum
@@ -36,6 +36,9 @@ def client_mapper(mapper_registry, metadata):
         get_client_db(metadata),
         inherits=User,
         polymorphic_identity=RoleEnum.client,
+        properties={
+            "subscriptions": relationship(Subscription, lazy="selectin"),
+        },
     )
 
 
@@ -61,4 +64,8 @@ def sub_mapper(mapper_registry, metadata):
     mapper_registry.map_imperatively(
         Subscription,
         get_sub_db(metadata),
+        properties={
+            "client": relationship(Client, lazy="selectin"),
+        },
+        
     )

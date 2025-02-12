@@ -6,6 +6,11 @@ from app.users.domain.enums.sub import SubEnum
 
 
 class Subscription:
+    id: Optional[int] = None
+    client_id: int
+    sub_start: datetime
+    sub_end: datetime
+    subscription_model: SubEnum
     def __init__(
         self,
         client_id: int,

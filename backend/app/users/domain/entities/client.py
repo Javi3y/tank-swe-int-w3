@@ -1,4 +1,7 @@
+from datetime import UTC, datetime
+from typing import List, Optional
 from pydantic import EmailStr
+from app.users.domain.entities.subscription import SubOut, Subscription
 from app.users.domain.enums.role import RoleEnum
 from app.users.domain.entities.user import (
     User,
@@ -11,6 +14,7 @@ from app.users.domain.entities.user import (
 
 class Client(User):
     balance: int
+    subscriptions: List[Subscription]
 
     def __init__(
         self,
@@ -53,6 +57,15 @@ class Client(User):
             return False
         return other.id == self.id
 
+    @property
+    def current_subscription(self):
+        """Returns the most recent valid subscription if available."""
+        now = datetime.now(UTC)
+        active_subs = [
+            sub for sub in self.subscriptions if sub.sub_start <= now <= sub.sub_end
+        ]
+        return max(active_subs, key=lambda sub: sub.sub_end, default=None)
+
 
 class ClientBase(UserBase):
     pass
@@ -64,6 +77,7 @@ class ClientCreate(UserCreate):
 
 class ClientOut(UserOut):
     balance: int
+    current_subscription: Optional[SubOut] = None
 
 
 class ClientUpdate(UserUpdate):

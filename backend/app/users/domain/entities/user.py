@@ -3,6 +3,7 @@ import re
 from typing import Optional
 from fastapi import HTTPException
 from pydantic import BaseModel, EmailStr
+from sqlalchemy_utils.generic import hybrid_property
 from app.users.domain.enums.role import RoleEnum
 from starlette.status import HTTP_400_BAD_REQUEST
 
