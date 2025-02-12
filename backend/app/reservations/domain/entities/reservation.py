@@ -1,7 +1,9 @@
 from datetime import UTC, datetime
 from typing import Optional
-from app.users.domain.entities.client import Client
-from app.books.domain.entities.book import Book
+
+from pydantic import BaseModel
+from app.users.domain.entities.client import Client, ClientOut
+from app.books.domain.entities.book import Book, BookOut
 
 
 class Reservation:
@@ -33,3 +35,18 @@ class Reservation:
         if not isinstance(other, Reservation):
             return False
         return other.id == self.id
+
+
+class ReservationBase(BaseModel):
+    res_start: datetime
+    res_end: datetime
+
+
+class ReservationCreate(ReservationBase):
+    book_id: int
+    client_id: int
+
+
+class ReservationOut(ReservationBase):
+    book: BookOut
+    client: ClientOut
