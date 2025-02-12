@@ -37,7 +37,7 @@ async def verify_access_token(token: str, credentials_exception, uow: UnitOfWork
         token_data = TokenData(id=int(id))
         async with uow:
             user_repo = uow.user_repo
-            user = await user_repo.get_item(id, uow.session)
+            user = await user_repo.get_item(id)
             if user is None:  # Explicitly check if user exists
                 raise credentials_exception
             if not user.token_expire:

@@ -7,16 +7,21 @@ class BookAuthorService:
         self, book_author: BookAuthorCreate, uow: UnitOfWork
     ) -> BookAuthor:
         repo = uow.book_author_repo
-        new_book = await repo.create_item(book_author, uow.session)
+        new_book = await repo.create_item(book_author)
         return new_book
 
     async def get_item(self, id: int, uow: UnitOfWork) -> BookAuthor:
         repo = uow.book_repo
         return await repo.get_item(id)
+    
+    async def get_with_book_author(self, book_id:int, author_id:int, uow:UnitOfWork) -> BookAuthor:
+        repo = uow.book_author_repo
+        return await repo.get_with_book_author(book_id, author_id)
 
-    async def delete_item(self, id: int, uow: UnitOfWork):
-        repo = uow.book_repo
-        return await repo.delete_item(id)
+    async def delete_item(self, book_id, author_id, uow: UnitOfWork):
+        repo = uow.book_author_repo
+        id = await self.get_with_book_author(book_id, author_id, uow)
+        return await repo.delete_item(id.id)
 
 
 async def get_book_author_service() -> BookAuthorService:

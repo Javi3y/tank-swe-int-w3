@@ -36,5 +36,5 @@ class BookRepository:
     #    return current_client
 
     async def delete_item(self, id: int):
-        client = await self.get_item(id)
-        await self.session.delete(client)
+        book = await self.get_item(id)
+        await self.session.delete(book)

@@ -83,3 +83,11 @@ async def create_book_author(book_id: int, author_id: int):
         await uow.commit()
         await uow.refresh(new_book_author)
         return new_book_author
+
+@router.delete("/{book_id}/{author_id}", dependencies=[Depends(current_author_or_admin)])
+async def delete_book_author(book_id: int, author_id: int):
+    async with UnitOfWork() as uow:
+        book_author_service = BookAuthorService()
+        await book_author_service.delete_item(book_id, author_id, uow)
+        await uow.commit()
+        return Response(status_code=HTTP_204_NO_CONTENT)

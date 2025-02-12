@@ -9,19 +9,30 @@ class BookAuthorRepository:
         self.session = session
 
     async def create_item(
-        self, book_author: BookAuthorCreate, db: AsyncSession
+        self, book_author: BookAuthorCreate
     ) -> BookAuthor:
         data = book_author.model_dump()
         new_book = BookAuthor(**data)
-        db.add(new_book)
-        await db.flush()
+        self.session.add(new_book)
+        await self.session.flush()
 
         return new_book
 
-    async def get_item(self, id: int, db: AsyncSession):
-        item = await db.execute(select(BookAuthor).where(BookAuthor.id == id))
+    async def get_item(self, id: int):
+        item = await self.session.execute(select(BookAuthor).where(BookAuthor.id == id))
         return item.scalar()
 
-    async def delete_item(self, id: int, db: AsyncSession):
-        book_author = await self.get_item(id, db)
-        await db.delete(book_author)
+    async def get_with_book_author(
+        self, book_id: int, author_id: int
+    ):
+        item = await self.session.execute(
+            select(BookAuthor)
+            .where(BookAuthor.book_id == book_id)
+            .where(BookAuthor.author_id == author_id)
+        )
+        item = item.scalar()
+        return item 
+
+    async def delete_item(self, id: int):
+        book_author = await self.get_item(id)
+        await self.session.delete(book_author)
