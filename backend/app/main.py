@@ -12,6 +12,7 @@ from app.adapters.redis import run_redis
 from app.auth.entrypoints import auth
 from sqlalchemy.orm import registry
 
+from app.books.entrypoints import book
 from app.users.domain.entities.user import User, UserOut
 from app.users.entrypoints import author, client
 
@@ -56,3 +57,4 @@ async def get_users(db: AsyncSession = Depends(get_db)):
 app.include_router(client.router)
 app.include_router(author.router)
 app.include_router(auth.router)
+app.include_router(book.router)

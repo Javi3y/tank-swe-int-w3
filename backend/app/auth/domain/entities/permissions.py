@@ -70,3 +70,22 @@ class AuthorOrAdminPermission(BasePermission):
         return any(
             [self.user.role == RoleEnum.author, self.user.role == RoleEnum.admin]
         )
+
+
+class CurrentAuthorOrAdminPermission(BasePermission):
+    def __init__(self, request: Request, user: User):
+        self.user = user
+        self.author_id = int(request.path_params["author_id"])
+
+    def has_permission(self) -> bool:
+        return any(
+            [
+                all(
+                    [
+                        self.user.id == self.author_id,
+                        self.user.role == RoleEnum.author,
+                    ]
+                ),
+                self.user.role == RoleEnum.admin,
+            ]
+        )

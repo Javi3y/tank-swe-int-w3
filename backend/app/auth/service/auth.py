@@ -37,7 +37,9 @@ async def verify_access_token(token: str, credentials_exception, uow: UnitOfWork
         token_data = TokenData(id=int(id))
         async with uow:
             user_repo = uow.user_repo
-            user = await user_repo.get_item(id, uow.session)
+            user = await user_repo.get_item(id)
+            if user is None:  # Explicitly check if user exists
+                raise credentials_exception
             if not user.token_expire:
                 raise credentials_exception
     except JWTError:
@@ -65,12 +67,12 @@ async def get_current_user(
 
     user_repo = uow.user_repo
     user_token = await verify_access_token(token, credentials_exception, uow)
-    return await user_repo.get_item(user_token.id, uow.session)
+    return await user_repo.get_item(user_token.id)
 
 
 async def check_user(user_credentials: Auth, uow: UnitOfWork) -> User:
     user_repo = uow.user_repo
-    user = await user_repo.get_by_user_or_email(user_credentials.username, uow.session)
+    user = await user_repo.get_by_user_or_email(user_credentials.username)
     if not user or not user_credentials.password == user.password:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED, detail="invalid credentails"

@@ -1,4 +1,6 @@
+from typing import List
 from pydantic import EmailStr
+from app.books.domain.entities.book import Book
 from app.users.domain.entities.city import City, CityOut
 from app.users.domain.enums.role import RoleEnum
 from app.users.domain.entities.user import User, UserCreate, UserOut
@@ -6,6 +8,7 @@ from app.users.domain.entities.user import User, UserCreate, UserOut
 
 class Author(User):
     city: City
+    books: List[Book]
 
     def __init__(
         self,
@@ -18,7 +21,7 @@ class Author(User):
         phone_number: str,
         goodreads: str,
         bank_account: str,
-        city: City
+        city: City,
     ):
         super().__init__(
             email, username, name, sur_name, password, phone_number, RoleEnum.author
@@ -36,8 +39,11 @@ class Author(User):
             return False
         return other.id == self.id
 
+
 class AuthorCreate(UserCreate):
     bank_account: str
 
+
 class AuthorOut(UserOut):
     city: CityOut
+    # books: List[BookOut]
