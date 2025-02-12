@@ -1,4 +1,7 @@
-from app.reservations.adapters.mappers import reservation_mapper
+from app.reservations.adapters.mappers import (
+    reservation_mapper,
+    reservation_queue_mapper,
+)
 from app.users.adapters.mappers import (
     admin_mapper,
     author_mapper,
@@ -23,3 +26,4 @@ def mapper(mapper_registry, metadata):
     book_mapper(mapper_registry, metadata)
 
     reservation_mapper(mapper_registry, metadata)
+    reservation_queue_mapper(mapper_registry, metadata)
