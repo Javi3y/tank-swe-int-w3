@@ -26,5 +26,3 @@ class Admin(User):
         if not isinstance(other, Admin):
             return False
         return other.id == self.id
-
-

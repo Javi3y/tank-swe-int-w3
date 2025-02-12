@@ -56,6 +56,7 @@ def author_mapper(mapper_registry, metadata):
         },
     )
 
+
 def admin_mapper(mapper_registry, metadata):
     mapper_registry.map_imperatively(
         Admin,
