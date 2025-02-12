@@ -1,6 +1,3 @@
-from typing import List
-
-
 from app.books.domain.entities.book_author import BookAuthor, BookAuthorCreate
 from app.unit_of_work import UnitOfWork
 

@@ -46,4 +46,4 @@ class AuthorCreate(UserCreate):
 
 class AuthorOut(UserOut):
     city: CityOut
-    #books: List[BookOut]
+    # books: List[BookOut]

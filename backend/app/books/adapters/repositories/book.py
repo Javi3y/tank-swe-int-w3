@@ -11,7 +11,7 @@ class BookRepository:
         self.session = session
 
     async def get_all(self) -> List[Book]:
-        #items = await self.session.execute(select(Book).options(joinedload(Book.authors)))
+        # items = await self.session.execute(select(Book).options(joinedload(Book.authors)))
         items = await self.session.execute(select(Book))
         # return [x for x in items.scalars().all()]
         items = items.scalars().all()

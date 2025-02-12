@@ -38,6 +38,7 @@ class BookBase(BaseModel):
     units: int
     description: str
     price: int
+
     class Config:
         from_attributes = True
 
@@ -50,4 +51,4 @@ class BookCreate(BookBase):
 class BookOut(BookBase):
     id: int
     created_at: datetime
-    #authors: List["AuthorOut"]
+    # authors: List["AuthorOut"]
