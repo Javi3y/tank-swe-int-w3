@@ -4,6 +4,7 @@ from starlette.status import HTTP_204_NO_CONTENT
 
 from app.unit_of_work import UnitOfWork, get_uow
 from app.users.domain.entities.client import ClientCreate, ClientOut, ClientUpdate
+from app.users.domain.entities.subscription import Subscription
 from app.users.service.client import ClientService
 from app.auth.service.dependencies.permissions import current_user_or_admin
 
@@ -24,7 +25,8 @@ async def get_client(
 ):
     async with UnitOfWork() as uow:
         client_service = ClientService()
-        return await client_service.get_item(id, uow)
+        client = await client_service.get_item(id, uow)
+        return client
 
 
 @router.post("/", response_model=ClientOut)
