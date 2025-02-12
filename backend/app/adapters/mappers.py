@@ -11,6 +11,7 @@ from app.users.adapters.mappers import (
     user_mapper,
 )
 from app.books.adapters.mappers import book_author_mapper, book_mapper, genre_mapper
+from app.events.adapters.mappers import event_mapper
 
 
 def mapper(mapper_registry, metadata):
@@ -27,3 +28,5 @@ def mapper(mapper_registry, metadata):
 
     reservation_mapper(mapper_registry, metadata)
     reservation_queue_mapper(mapper_registry, metadata)
+
+    event_mapper(mapper_registry, metadata)
