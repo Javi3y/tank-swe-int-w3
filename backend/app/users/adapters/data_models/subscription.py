@@ -18,14 +18,18 @@ def get_sub_db(metadata):
         metadata,
         Column("client_id", Integer(), nullable=False),
         Column("subscription_model", Enum(SubEnum), nullable=False),
-        Column("sub_start", DateTime(timezone=True), 
+        Column(
+            "sub_start",
+            DateTime(timezone=True),
             nullable=False,
             default=current_timestamp(),
-               ),
-        Column("sub_end", DateTime(timezone=True),
+        ),
+        Column(
+            "sub_end",
+            DateTime(timezone=True),
             nullable=False,
             default=current_timestamp(),
-               ),
+        ),
         Column("id", Integer(), nullable=False),
         Column(
             "created_at",

@@ -69,8 +69,9 @@ def sub_mapper(mapper_registry, metadata):
         properties={
             "client": relationship(Client, lazy="selectin"),
         },
-        )
-        
+    )
+
+
 def admin_mapper(mapper_registry, metadata):
     mapper_registry.map_imperatively(
         Admin,
