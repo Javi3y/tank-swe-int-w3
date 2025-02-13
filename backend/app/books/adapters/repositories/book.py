@@ -25,7 +25,7 @@ class BookRepository:
 
         return new_book
 
-    async def get_item(self, id: int):
+    async def get_item(self, id: int) -> Book:
         item = await self.session.execute(select(Book).where(Book.id == id))
         return item.scalar()
 

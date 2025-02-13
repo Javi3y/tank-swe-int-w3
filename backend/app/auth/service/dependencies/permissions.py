@@ -3,6 +3,7 @@ from fastapi import Depends, Request
 from app.auth.domain.entities.permissions import (
     AdminPermission,
     AuthorOrAdminPermission,
+    ClientPermission,
     CurrentAuthorOrAdminPermission,
     CurrentUserOrAdminPermission,
     CurrentUserOrAdminPermission,
@@ -16,6 +17,12 @@ CurrentUser = Annotated[User, Depends(get_current_user)]
 
 async def admin_permission(request: Request, user: CurrentUser):
     permission = AdminPermission(request=request, user=user)
+    permission()
+    return user
+
+
+async def client_permission(request: Request, user: CurrentUser):
+    permission = ClientPermission(request=request, user=user)
     permission()
     return user
 

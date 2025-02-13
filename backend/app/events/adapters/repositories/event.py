@@ -15,8 +15,8 @@ class EventRepository:
         items = await self.session.execute(select(Event))
         return items.scalars().all()
 
-    async def create_item(self, client: EventCreate) -> Event:
-        data = client.model_dump()
+    async def create_item(self, event: EventCreate) -> Event:
+        data = event.model_dump()
         new_event = Event(**data)
         self.session.add(new_event)
         await self.session.flush()
