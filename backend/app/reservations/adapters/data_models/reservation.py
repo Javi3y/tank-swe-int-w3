@@ -1,4 +1,5 @@
 from sqlalchemy import (
+    Boolean,
     Column,
     ForeignKeyConstraint,
     Integer,
@@ -33,6 +34,7 @@ def get_reservation_db(metadata):
             nullable=False,
             default=current_timestamp(),
         ),
+        Column("returned", Boolean(), nullable=False, default=False),
         ForeignKeyConstraint(["book_id"], ["book.id"], ondelete="CASCADE"),
         ForeignKeyConstraint(["client_id"], ["client.id"], ondelete="CASCADE"),
         PrimaryKeyConstraint("id"),

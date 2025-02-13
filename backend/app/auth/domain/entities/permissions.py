@@ -43,6 +43,16 @@ class AdminPermission(BasePermission):
         return self.role == RoleEnum.admin
 
 
+class ClientPermission(BasePermission):
+    def __init__(self, request: Request, user: User):
+        self.user = user
+        self.role = user.role
+        self.request = request
+
+    def has_permission(self) -> bool:
+        return self.role == RoleEnum.client
+
+
 class CurrentUserPermission(BasePermission):
     def __init__(self, request: Request, user: User):
         self.user_id = int(request.path_params["user_id"])

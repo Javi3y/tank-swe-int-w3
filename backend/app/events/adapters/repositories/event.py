@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.events.domain.entities.event import Event, EventCreate
 from app.events.domain.enums.event_status import EventStatusEnum
+from app.events.domain.enums.event_type import EventTypeEnum
 
 
 class EventRepository:
@@ -15,8 +16,8 @@ class EventRepository:
         items = await self.session.execute(select(Event))
         return items.scalars().all()
 
-    async def create_item(self, client: EventCreate) -> Event:
-        data = client.model_dump()
+    async def create_item(self, event: EventCreate) -> Event:
+        data = event.model_dump()
         new_event = Event(**data)
         self.session.add(new_event)
         await self.session.flush()
@@ -59,3 +60,16 @@ class EventRepository:
             .where(Event.timestamp <= datetime.now(UTC) + timedelta(seconds=61))
         )
         return items.scalars().all()
+
+    async def get_with_reservation(self, reservation_id: int):
+        item = await self.session.execute(
+            select(Event)
+            .where(Event.event_type == EventTypeEnum.reservation)
+            .where(Event.payload.containes({"reservation": reservation_id}))
+        )
+        return item.scalar()
+
+    async def change_time(self, id: int, new_time: datetime):
+        item = await self.get_item(id)
+        item.change_timestamp(new_time)
+        await self.session.flush()

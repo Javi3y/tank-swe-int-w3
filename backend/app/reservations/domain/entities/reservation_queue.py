@@ -40,6 +40,6 @@ class ReservationQueueCreate(ReservationQueueBase):
     client_id: int
 
 
-class ReservationOut(ReservationQueueBase):
+class ReservationQueueOut(ReservationQueueBase):
     book: BookOut
     client: ClientOut
