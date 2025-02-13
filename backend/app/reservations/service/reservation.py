@@ -7,6 +7,7 @@ from starlette.status import HTTP_403_FORBIDDEN, HTTP_404_NOT_FOUND
 from app.events.domain.entities.event import EventCreate
 from app.events.domain.enums.event_type import EventTypeEnum
 from app.reservations.domain.entities.reservation import Reservation, ReservationCreate
+from app.reservations.domain.entities.reservation_queue import ReservationQueueCreate
 from app.unit_of_work import UnitOfWork
 from app.users.domain.enums.sub import SubEnum
 from app.users.service.client import ClientService
@@ -89,7 +90,10 @@ class ReservationService:
             )
             return new_reservation
         else:
-            pass
+            reservation_queue_repo = uow.reservation_queue_repo
+            await reservation_queue_repo.create_item(
+                ReservationQueueCreate(book_id=book_id, client_id=client_id)
+            )
 
     async def get_by_book_client(
         self, client_id: int, book_id: int, uow: UnitOfWork

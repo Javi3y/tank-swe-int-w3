@@ -41,7 +41,6 @@ class ReservationRepository:
             .where(Reservation.client_id == client_id)
         )
         item = item.scalar()
-        print(item)
         return item
 
     async def return_item(self, reservation: Reservation):
