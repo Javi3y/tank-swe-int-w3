@@ -33,6 +33,22 @@ class ReservationRepository:
         )
         return items.scalars().all()
 
+    async def get_by_book_client(self, client_id: int, book_id: int):
+        item = await self.session.execute(
+            select(Reservation)
+            .where(Reservation.returned == False)
+            .where(Reservation.book_id == book_id)
+            .where(Reservation.client_id == client_id)
+        )
+        item = item.scalar()
+        print(item)
+        return item
+
+    async def return_item(self,reservation: Reservation):
+        reservation.return_item()
+        await self.session.flush()
+
+
 
 #    async def delete_item(self, id: int):
 #        client = await self.get_item(id)

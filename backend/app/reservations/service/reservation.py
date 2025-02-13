@@ -8,7 +8,6 @@ from app.events.domain.entities.event import EventCreate
 from app.events.domain.enums.event_type import EventTypeEnum
 from app.reservations.domain.entities.reservation import Reservation, ReservationCreate
 from app.unit_of_work import UnitOfWork
-from app.users.domain.enums.role import RoleEnum
 from app.users.domain.enums.sub import SubEnum
 from app.users.service.client import ClientService
 import json
@@ -91,6 +90,20 @@ class ReservationService:
             return new_reservation
         else:
             pass
+
+    async def get_by_book_client(
+        self, client_id: int, book_id: int, uow: UnitOfWork
+    ) -> Reservation:
+        repo = uow.reservation_repo
+        return await repo.get_by_book_client(book_id, client_id)
+
+    async def return_reservation(self, client_id: int, book_id: int, uow: UnitOfWork):
+        event_repo = uow.event_repo
+        reservation_repo = uow.reservation_repo
+        reservation = await self.get_by_book_client(client_id, book_id, uow)
+        await reservation_repo.return_item(reservation)
+        event = await event_repo.get_item(reservation.id)
+        await event_repo.change_time(event.id, datetime.now(UTC) + timedelta(seconds=70))
 
     # async def delete_item(self, id: int, uow: UnitOfWork):
     #    repo = uow.reservation_repo

@@ -27,6 +27,7 @@ class Reservation:
         self.book_id = book_id
         self.res_start = res_start
         self.res_end = res_end
+        self.returned = False
 
     def __str__(self):
         return f"<Reservation {self.client_id}-{self.book_id}>"
@@ -35,6 +36,9 @@ class Reservation:
         if not isinstance(other, Reservation):
             return False
         return other.id == self.id
+
+    def return_item(self):
+        self.returned = True
 
 
 class ReservationBase(BaseModel):

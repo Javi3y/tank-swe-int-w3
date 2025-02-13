@@ -37,6 +37,9 @@ class Event:
     def resolve(self):
         self.event_status = EventStatusEnum.resolved
 
+    def change_timestamp(self, new_time:datetime):
+        self.timestamp = new_time
+
 
 class EventBase(BaseModel):
     payload: Json

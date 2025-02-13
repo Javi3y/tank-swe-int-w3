@@ -1,4 +1,4 @@
-from sqlalchemy.orm import properties, relationship
+from sqlalchemy.orm import relationship
 from app.books.adapters.data_models.book import get_book_db
 from app.books.adapters.data_models.book_author import get_book_author_db
 from app.books.adapters.data_models.genre import get_genre_db
