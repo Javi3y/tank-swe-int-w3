@@ -23,13 +23,12 @@ async def reserve(book_id: int, client: CurrentUser):
         await uow.commit()
         await uow.refresh(reservation)
         return reservation
-@router.post(
-    "/{book_id}/return",
-    dependencies=[Depends(client_permission)]
-)
-async def return_reservation(book_id:int, client: CurrentUser):
+
+
+@router.post("/{book_id}/return", dependencies=[Depends(client_permission)])
+async def return_reservation(book_id: int, client: CurrentUser):
     async with UnitOfWork() as uow:
         reservation_service = ReservationService()
         await reservation_service.return_reservation(book_id, client.id, uow)
         await uow.commit()
-        return({"msg": "book was returned successfully"})
+        return {"msg": "book was returned successfully"}

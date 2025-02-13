@@ -7,6 +7,5 @@ class EventService:
     pass
 
 
-
 async def get_event_service() -> EventService:
     return EventService()

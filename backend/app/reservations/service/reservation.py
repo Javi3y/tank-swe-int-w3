@@ -103,7 +103,9 @@ class ReservationService:
         reservation = await self.get_by_book_client(client_id, book_id, uow)
         await reservation_repo.return_item(reservation)
         event = await event_repo.get_item(reservation.id)
-        await event_repo.change_time(event.id, datetime.now(UTC) + timedelta(seconds=70))
+        await event_repo.change_time(
+            event.id, datetime.now(UTC) + timedelta(seconds=70)
+        )
 
     # async def delete_item(self, id: int, uow: UnitOfWork):
     #    repo = uow.reservation_repo

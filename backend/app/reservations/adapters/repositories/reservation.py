@@ -44,10 +44,9 @@ class ReservationRepository:
         print(item)
         return item
 
-    async def return_item(self,reservation: Reservation):
+    async def return_item(self, reservation: Reservation):
         reservation.return_item()
         await self.session.flush()
-
 
 
 #    async def delete_item(self, id: int):

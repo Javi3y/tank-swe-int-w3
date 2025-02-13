@@ -69,7 +69,7 @@ class EventRepository:
         )
         return item.scalar()
 
-    async def change_time(self, id:int, new_time:datetime):
+    async def change_time(self, id: int, new_time: datetime):
         item = await self.get_item(id)
         item.change_timestamp(new_time)
         await self.session.flush()
