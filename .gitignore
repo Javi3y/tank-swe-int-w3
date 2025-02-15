@@ -22,4 +22,8 @@ backend/.vscode
 
 postgres
 pgadmin
-workers/events/main
+
+workers/venv
+workers/.env
+workers/.venv
+workers/env
