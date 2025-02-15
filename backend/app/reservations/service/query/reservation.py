@@ -6,7 +6,7 @@ from starlette.status import HTTP_403_FORBIDDEN, HTTP_404_NOT_FOUND
 from app.reservations.domain.entities.reservation import Reservation
 from app.unit_of_work import UnitOfWork
 from app.users.domain.enums.sub import SubEnum
-from app.users.service.client import ClientService
+from app.users.service.query.client import get_subscription_query
 
 
 async def get_reservations_query(uow: UnitOfWork) -> List[Reservation]:
@@ -38,9 +38,8 @@ async def can_reserve(
     id: int, reservations: List[Reservation], uow: UnitOfWork
 ) -> None:
     # I have to fix this later
-    client_service = ClientService()
     reservations_count = len(reservations)
-    sub = await client_service.get_subscription(id, uow)
+    sub = await get_subscription_query(id, uow)
     if not sub:
         raise HTTPException(
             HTTP_403_FORBIDDEN, detail="purchase a subscription to reserve"
