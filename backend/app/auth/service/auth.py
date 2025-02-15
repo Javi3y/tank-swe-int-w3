@@ -2,7 +2,6 @@ from datetime import datetime, timedelta, UTC
 from random import randint
 from fastapi import Depends, HTTPException, Request, status
 from jose import JWTError, jwt
-from sqlalchemy import select
 from starlette.status import HTTP_401_UNAUTHORIZED
 from app.auth.domain.entities.auth import Auth
 from app.auth.domain.entities.token import TokenData
@@ -10,9 +9,6 @@ from app.auth.domain.entities.token import TokenData
 from app.config import settings
 from app.unit_of_work import UnitOfWork, get_uow
 from app.users.domain.entities.user import User
-
-# from .database import get_db
-# from .models import users
 
 SECRET_KEY = settings.secret_key
 ALGORITHM = settings.algorithm

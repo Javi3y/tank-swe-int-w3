@@ -34,6 +34,7 @@ class ReservationRepository:
         return items.scalars().all()
 
     async def get_by_book_client(self, client_id: int, book_id: int):
+        print(client_id, book_id)
         item = await self.session.execute(
             select(Reservation)
             .where(Reservation.returned == False)

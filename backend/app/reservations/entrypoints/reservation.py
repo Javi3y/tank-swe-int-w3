@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends
 from app.reservations.domain.entities.reservation import ReservationOut
-from app.reservations.service.reservation import ReservationService
+from app.reservations.service.commands.reservation import (
+    reserve_command,
+    return_reservation_command,
+)
 from app.unit_of_work import UnitOfWork
 from app.auth.service.dependencies.permissions import (
     CurrentUser,
@@ -18,8 +21,7 @@ router = APIRouter(prefix="/reservation", tags=["Reservation"])
 )
 async def reserve(book_id: int, client: CurrentUser):
     async with UnitOfWork() as uow:
-        reservation_service = ReservationService()
-        reservation = await reservation_service.reserve(client.id, book_id, uow)
+        reservation = await reserve_command(client.id, book_id, uow)
         await uow.commit()
         await uow.refresh(reservation)
         return reservation
@@ -28,7 +30,6 @@ async def reserve(book_id: int, client: CurrentUser):
 @router.post("/{book_id}/return", dependencies=[Depends(client_permission)])
 async def return_reservation(book_id: int, client: CurrentUser):
     async with UnitOfWork() as uow:
-        reservation_service = ReservationService()
-        await reservation_service.return_reservation(book_id, client.id, uow)
+        await return_reservation_command(client.id, book_id, uow)
         await uow.commit()
         return {"msg": "book was returned successfully"}
