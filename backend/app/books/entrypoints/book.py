@@ -5,8 +5,11 @@ from starlette.status import HTTP_204_NO_CONTENT
 from app.auth.service.dependencies.permissions import current_author_or_admin
 from app.books.domain.entities.book import BookCreate, BookOut
 from app.books.domain.entities.book_author import BookAuthorCreate
-from app.books.service.book_author import BookAuthorService
 from app.books.service.commands.book import create_book_command, delete_book_command
+from app.books.service.commands.book_author import (
+    create_book_author_command,
+    delete_book_author_command,
+)
 from app.books.service.query.book import get_book_query, get_books_query
 from app.unit_of_work import UnitOfWork
 
@@ -75,8 +78,7 @@ async def delete_book(book_id: int):
 @router.post("/{book_id}/{author_id}", dependencies=[Depends(current_author_or_admin)])
 async def create_book_author(book_id: int, author_id: int):
     async with UnitOfWork() as uow:
-        book_author_service = BookAuthorService()
-        new_book_author = await book_author_service.create_item(
+        new_book_author = await create_book_author_command(
             BookAuthorCreate(book_id=book_id, author_id=author_id), uow
         )
         await uow.commit()
@@ -89,7 +91,6 @@ async def create_book_author(book_id: int, author_id: int):
 )
 async def delete_book_author(book_id: int, author_id: int):
     async with UnitOfWork() as uow:
-        book_author_service = BookAuthorService()
-        await book_author_service.delete_item(book_id, author_id, uow)
+        await delete_book_author_command(book_id, author_id, uow)
         await uow.commit()
         return Response(status_code=HTTP_204_NO_CONTENT)
