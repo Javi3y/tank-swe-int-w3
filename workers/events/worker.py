@@ -8,9 +8,9 @@ import pika
 
 
 async def main():
-    pika_connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+    pika_connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
     pika_channel = pika_connection.channel()
-    pika_channel.queue_declare(queue='reservation')
+    pika_channel.queue_declare(queue="reservation")
     connection = await connect(
         user=settings.database_username,
         password=settings.database_password,
@@ -27,12 +27,13 @@ async def main():
             print(result)
             for r in result:
                 pika_channel.basic_publish(
-                    exchange='',
-                    routing_key='reservation',
-                    body=json.dumps({**json.loads(r["payload"]), "event_id": r["id"]}) 
+                    exchange="",
+                    routing_key="reservation",
+                    body=json.dumps({**json.loads(r["payload"]), "event_id": r["id"]}),
                 )
     finally:
         await connection.close()
         pika_connection.close()
+
 
 asyncio.run(main())
