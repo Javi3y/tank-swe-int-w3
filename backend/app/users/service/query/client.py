@@ -8,9 +8,11 @@ async def get_clients_query(uow: UnitOfWork) -> List[Client]:
     repo = uow.client_repo
     return await repo.get_all()
 
+
 async def get_client_query(id: int, uow: UnitOfWork) -> Client:
     repo = uow.client_repo
     return await repo.get_item(id)
+
 
 async def get_subscription_query(id: int, uow: UnitOfWork) -> SubEnum | None:
     client = await get_client_query(id, uow)

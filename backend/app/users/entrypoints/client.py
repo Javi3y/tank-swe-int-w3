@@ -5,7 +5,11 @@ from starlette.status import HTTP_204_NO_CONTENT
 from app.unit_of_work import UnitOfWork
 from app.users.domain.entities.client import ClientCreate, ClientOut, ClientUpdate
 from app.auth.service.dependencies.permissions import current_user_or_admin
-from app.users.service.commands.client import create_client_command, delete_client_command, update_client_command
+from app.users.service.commands.client import (
+    create_client_command,
+    delete_client_command,
+    update_client_command,
+)
 from app.users.service.query.client import get_client_query, get_clients_query
 
 
