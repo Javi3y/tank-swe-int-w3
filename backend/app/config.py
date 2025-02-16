@@ -7,9 +7,11 @@ class Settings(BaseSettings):
     database_host: str
     database_name: str
     database_port: int
+
     secret_key: str
     algorithm: str
     access_token_expire_minutes: int
+
     redis_host: str
     redis_port: int
     redis_username: str | None = None

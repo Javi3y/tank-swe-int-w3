@@ -1,14 +1,21 @@
 import asyncio
 from config import settings
 
-from time import sleep
+# from time import sleep
 from asyncpg import connect
 import json
 import pika
 
+rabbit_params = pika.ConnectionParameters(
+    settings.rabbitmq_host,
+    settings.rabbitmq_port,
+    settings.rabbitmq_default_vhost,
+    pika.PlainCredentials(settings.rabbitmq_username, settings.rabbitmq_password),
+)
+
 
 async def main():
-    pika_connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
+    pika_connection = pika.BlockingConnection(rabbit_params)
     pika_channel = pika_connection.channel()
     pika_channel.queue_declare(queue="reservation")
     connection = await connect(
@@ -18,13 +25,14 @@ async def main():
         host=settings.database_host,
         port=settings.database_port,
     )
+    print("test")
     try:
+        print("try")
         while True:
-            sleep(10)
+            await asyncio.sleep(10)
             result = await connection.fetch(
                 "SELECT * FROM event WHERE event_status = 'pending' AND timestamp >= now() AND timestamp <= now() + interval '61 seconds';"
             )
-            print(result)
             for r in result:
                 pika_channel.basic_publish(
                     exchange="",
