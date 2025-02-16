@@ -18,7 +18,9 @@ class ReservationQueue:
         self,
         client_id: int,
         book_id: int,
+        id:Optional[int]=None,
     ):
+        self.id = id
         self.client_id = client_id
         self.book_id = book_id
 
