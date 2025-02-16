@@ -32,7 +32,7 @@ class ReservationQueueRepository:
         )
         return item.scalar()
 
-    async def get_latest(self, book_id: int)-> ReservationQueue:
+    async def get_latest(self, book_id: int) -> ReservationQueue:
         query = await self.session.execute(
             text(
                 f"""
@@ -66,9 +66,8 @@ class ReservationQueueRepository:
         if not result:
             return None
         reservation = await self.get_item(result.id)
-        
-        return reservation
 
+        return reservation
 
 
 #    async def delete_item(self, id: int):

@@ -25,7 +25,7 @@ async def reserve_command(client_id: int, book_id: int, uow: UnitOfWork) -> Rese
     prev_reservations = await get_reservations_by_client_query(client_id, uow)
     await can_reserve(client_id, prev_reservations, uow)
     can = await reserve_or_queue(book_id, uow)
-    print("can or not",can )
+    print("can or not", can)
     if await reserve_or_queue(book_id, uow):
         start = datetime.now(UTC)
         end = datetime.now(UTC) + timedelta(days=7)
