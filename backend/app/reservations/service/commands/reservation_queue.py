@@ -25,7 +25,9 @@ async def delete_reservation_queue_command(
 
 
 async def resolve_reservation_command(book_id: int, uow: UnitOfWork):
+    print(book_id)
     reservation = await get_latest_reservation_queue_query(book_id, uow)
+    print(reservation)
     if reservation:
         prev_reservations = await get_reservations_by_client_query(
             reservation.client_id, uow

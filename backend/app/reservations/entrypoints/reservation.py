@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
-from app.reservations.domain.entities.reservation import ReservationOut
 from app.reservations.domain.entities.reservation_queue import ReservationQueueOut
 from app.reservations.service.commands.reservation import (
     reserve_command,

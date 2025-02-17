@@ -25,9 +25,7 @@ async def main():
         host=settings.database_host,
         port=settings.database_port,
     )
-    print("test")
     try:
-        print("try")
         while True:
             await asyncio.sleep(10)
             result = await connection.fetch(

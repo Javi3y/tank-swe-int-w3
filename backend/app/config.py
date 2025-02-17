@@ -17,6 +17,12 @@ class Settings(BaseSettings):
     redis_username: str | None = None
     redis_password: str | None = None
 
+    rabbitmq_host: str
+    rabbitmq_port: int
+    rabbitmq_username: str
+    rabbitmq_password: str
+    rabbitmq_default_vhost: str
+
     class Config:
         env_file = ".env"
 

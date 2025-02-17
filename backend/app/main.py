@@ -8,28 +8,44 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.mappers import mapper
 from app.adapters.postgres import get_db
+from app.adapters.rabbitmq import RabbitMq
 from app.adapters.redis import run_redis
 from app.auth.entrypoints import auth
 from sqlalchemy.orm import registry
 
 from app.books.entrypoints import book
 from app.reservations.entrypoints import reservation
+from app.reservations.service.command_handlers.reservation_queue import (
+    handle_reservation_queue_event_sync,
+)
 from app.users.domain.entities.user import User, UserOut
 from app.users.entrypoints import author, client
-
-mapper_registry = registry()
-metadata = mapper_registry.metadata
-mapper(mapper_registry, metadata)
+import threading
+import asyncio
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db_generator = get_db()
     db = await anext(db_generator)
+    mapper_registry = registry()
+    metadata = mapper_registry.metadata
+    main_loop = asyncio.get_event_loop()
     try:
+        mapper(mapper_registry, metadata)
         app.state.n_client = await run_redis()
         await db.execute(text("create extension if not exists btree_gist;"))
         await db.commit()
+        rabbitmq = RabbitMq()
+        threading.Thread(
+            target=lambda: rabbitmq.consume_messages(
+                queue_name="reservation",
+                callback=lambda ch, method, properties, msg: handle_reservation_queue_event_sync(
+                    ch, method, properties, msg, main_loop
+                ),
+            ),
+            daemon=True,
+        ).start()
         yield
     finally:
         await db.close()
