@@ -58,7 +58,7 @@ class ReservationQueueRepository:
             )
             SELECT id, book_id, client_id, created_at
             FROM RankedReservations
-            WHERE rank = { book_id }
+            WHERE book_id = { book_id }
             """
             )
         )
@@ -69,7 +69,6 @@ class ReservationQueueRepository:
 
         return reservation
 
-
-#    async def delete_item(self, id: int):
-#        client = await self.get_item(id)
-#        await self.session.delete(client)
+    async def delete_item(self, id: int):
+        client = await self.get_item(id)
+        await self.session.delete(client)

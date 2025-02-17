@@ -6,6 +6,6 @@ from app.unit_of_work import UnitOfWork
 
 async def get_latest_reservation_queue_query(
     book_id: int, uow: UnitOfWork
-) -> List[ReservationQueue]:
+) -> ReservationQueue:
     repo = uow.reservation_queue_repo
     return await repo.get_latest(book_id)

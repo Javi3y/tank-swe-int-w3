@@ -6,6 +6,7 @@ from app.reservations.service.commands.reservation import (
     reserve_command,
     return_reservation_command,
 )
+from app.reservations.service.commands.reservation_queue import resolve_reservation_command
 from app.reservations.service.query.reservation_queue import (
     get_latest_reservation_queue_query,
 )
@@ -47,4 +48,11 @@ async def get_latest(book_id: int):
         reservation = await get_latest_reservation_queue_query(book_id, uow)
         if not reservation:
             raise HTTPException(HTTP_404_NOT_FOUND)
+        return reservation
+
+@router.post("/{book_id}/resolve")
+async def resolve_latest(book_id: int):
+    async with UnitOfWork() as uow:
+        reservation = await resolve_reservation_command(book_id, uow)
+        await uow.commit()
         return reservation
