@@ -31,6 +31,12 @@ class Book:
     def __str__(self):
         return f"<Book {self.title}>"
 
+    def increment_units(self):
+        self.units += 1
+
+    def decrement_units(self):
+        self.units -= 1
+
 
 class BookBase(BaseModel):
     title: str

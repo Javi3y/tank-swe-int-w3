@@ -23,3 +23,7 @@ backend/.vscode
 postgres
 pgadmin
 
+workers/venv
+workers/.env
+workers/.venv
+workers/env

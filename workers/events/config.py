@@ -8,15 +8,6 @@ class Settings(BaseSettings):
     database_name: str
     database_port: int
 
-    secret_key: str
-    algorithm: str
-    access_token_expire_minutes: int
-
-    redis_host: str
-    redis_port: int
-    redis_username: str | None = None
-    redis_password: str | None = None
-
     rabbitmq_host: str
     rabbitmq_port: int
     rabbitmq_username: str

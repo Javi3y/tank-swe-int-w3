@@ -17,14 +17,14 @@ async def create_reservation_command(
     reservation: ReservationCreate, uow: UnitOfWork
 ) -> Reservation:
     repo = uow.reservation_repo
-    new_client = await repo.create_item(reservation)
-    return new_client
+    new_reservation = await repo.create_item(reservation)
+    return new_reservation
 
 
 async def reserve_command(client_id: int, book_id: int, uow: UnitOfWork) -> Reservation:
     prev_reservations = await get_reservations_by_client_query(client_id, uow)
     await can_reserve(client_id, prev_reservations, uow)
-    if reserve_or_queue(book_id, uow):
+    if await reserve_or_queue(book_id, uow):
         start = datetime.now(UTC)
         end = datetime.now(UTC) + timedelta(days=7)
         new_reservation = await create_reservation_command(
@@ -47,12 +47,18 @@ async def reserve_command(client_id: int, book_id: int, uow: UnitOfWork) -> Rese
                 timestamp=end, payload=payload, event_type=EventTypeEnum.reservation
             )
         )
+        book_repo = uow.book_repo
+        book = await book_repo.get_item(book_id)
+        book.decrement_units()
+        await uow.flush()
+        await uow.refresh(book)
         return new_reservation
     else:
         reservation_queue_repo = uow.reservation_queue_repo
-        await reservation_queue_repo.create_item(
+        new_reservation_queue = await reservation_queue_repo.create_item(
             ReservationQueueCreate(book_id=book_id, client_id=client_id)
         )
+        return new_reservation_queue
 
 
 async def return_reservation_command(client_id: int, book_id: int, uow: UnitOfWork):

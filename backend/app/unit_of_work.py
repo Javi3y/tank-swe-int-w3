@@ -18,6 +18,7 @@ from app.reservations.adapters.repositories.reservation_queue import (
 class UnitOfWork:
     def __init__(self):
         self.session: AsyncSession = SessionLocal()
+
         self.client_repo = ClientRepository(self.session)
         self.user_repo = UserRepository(self.session)
         self.author_repo = AuthorRepository(self.session)
@@ -43,7 +44,7 @@ class UnitOfWork:
     async def __aenter__(self):
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
+    async def __aexit__(self, exc_type, _exc_val, _exc_tb):
         if exc_type is not None:
             await self.rollback()
         await self.session.close()

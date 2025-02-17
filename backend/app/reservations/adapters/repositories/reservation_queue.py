@@ -1,5 +1,5 @@
 from typing import List
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.reservations.domain.entities.reservation_queue import (
@@ -32,7 +32,43 @@ class ReservationQueueRepository:
         )
         return item.scalar()
 
+    async def get_latest(self, book_id: int) -> ReservationQueue:
+        query = await self.session.execute(
+            text(
+                f"""
+            WITH RankedReservations AS (
+                SELECT
+                    rq.id,
+                    rq.book_id,
+                    rq.client_id,
+                    rq.created_at,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY rq.book_id
+                        ORDER BY
+                            CASE
+                                WHEN s.subscription_model = 'premium' THEN 1
+                                WHEN s.subscription_model = 'plus' THEN 2
+                                ELSE 3
+                            END,
+                            rq.created_at
+                    ) AS rank
+                FROM reservation_queue rq
+                JOIN client c ON rq.client_id = c.id
+                JOIN subscription s ON c.id = s.client_id
+            )
+            SELECT id, book_id, client_id, created_at
+            FROM RankedReservations
+            WHERE book_id = { book_id }
+            """
+            )
+        )
+        result = query.fetchone()
+        if not result:
+            return None
+        reservation = await self.get_item(result.id)
 
-#    async def delete_item(self, id: int):
-#        client = await self.get_item(id)
-#        await self.session.delete(client)
+        return reservation
+
+    async def delete_item(self, id: int):
+        client = await self.get_item(id)
+        await self.session.delete(client)

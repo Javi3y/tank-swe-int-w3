@@ -53,3 +53,14 @@ services:
       - postgres
       - redis
 
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: changeme
+      RABBITMQ_DEFAULT_VHOST: fapi
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
