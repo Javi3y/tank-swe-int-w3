@@ -32,10 +32,10 @@ class Book:
         return f"<Book {self.title}>"
 
     def increment_units(self):
-        self.units  += 1
+        self.units += 1
 
     def decrement_units(self):
-        self.units  -= 1
+        self.units -= 1
 
 
 class BookBase(BaseModel):
